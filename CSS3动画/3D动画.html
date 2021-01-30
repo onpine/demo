@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D动画</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="box"></div>
+  </div>
+</body>
+
+</html>
+<style>
+  body,
+  html {
+    height: 100%;
+    width: 100%;
+  }
+
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  .container {
+    position: relative;
+    top: 100px;
+    left: 100px;
+  }
+
+  .box {
+    width: 100px;
+    height: 100px;
+    background-color: brown;
+    /* 以向量(1,1,1)为轴，左手螺旋定理旋转45度 */
+    transform: rotate3d(1, 1, 1, 45deg);
+  }
+</style>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动画</title>
+</head>
+
+<body>
+  <div id="a"></div>
+  <div class="box">
+    <div id="b"></div>
+  </div>
+</body>
+
+</html>
+
+<style>
+  #a {
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    transition: none 1s ease-in-out .5s;
+    transition-property: width, background-color;
+  }
+
+  #a:hover {
+    width: 400px;
+    background-color: royalblue;
+  }
+
+  .box {
+    perspective: 200;
+    -webkit-perspective: 200;
+    width: 200px;
+    height: 200px;
+    background-color: #ccc;
+  }
+
+  #b {
+    width: 200px;
+    height: 200px;
+    background-color: cornflowerblue;
+    position: relative;
+    /* animation: 5s infinite mymove; */
+  }
+
+  #b:hover {
+    animation: 2s linear 0s 2 alternate-reverse ani_b;
+  }
+
+  @keyframes ani_b {
+    0% {
+      transform: rotateX(0deg);
+    }
+
+    50% {
+      transform: rotateX(90deg);
+    }
+
+    100% {
+      transform: rotateX(180deg);
+    }
+  }
+
+  @-webkit-keyframes ani_b {
+    0% {
+      transform: rotateX(0deg);
+    }
+
+    50% {
+      transform: rotateX(90deg);
+    }
+
+    100% {
+      transform: rotateX(180deg);
+    }
+  }
+
+  @keyframes mymove {
+    0% {
+      top: 0px;
+    }
+
+    25% {
+      top: 200px;
+    }
+
+    75% {
+      top: 50px
+    }
+
+    100% {
+      top: 100px;
+    }
+  }
+
+  @-webkit-keyframes mymove
+
+  /* Safari and Chrome */
+    {
+    0% {
+      top: 0px;
+    }
+
+    25% {
+      top: 200px;
+    }
+
+    75% {
+      top: 50px
+    }
+
+    100% {
+      top: 100px;
+    }
+  }
+</style>

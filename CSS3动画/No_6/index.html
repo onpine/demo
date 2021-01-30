@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No.6 - 利用 CSS animation 制作一个炫酷的 Slider</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      /* overflow: hidden; */
+      height: 100%;
+      width: 100%;
+    }
+
+    .bg {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+    }
+
+    #main {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+    }
+
+    .ani-1 {
+      animation: ani-1 0.5s ease-out 0s;
+    }
+
+    .ani-2 {
+      animation: ani-2 0.5s ease-out 0s;
+    }
+
+    .ani-3 {
+      animation: ani-3 1s ease-out 0s;
+    }
+
+    .ani-4 {
+      animation: ani-4 0.5s ease-out 0s;
+    }
+
+    .ani-5 {
+      animation: ani-5 0.5s ease-in-out 0s;
+    }
+
+    @keyframes ani-1 {
+      from {
+        transform: translateX(-500px);
+      }
+
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes ani-2 {
+      from {
+        transform: translateY(350px);
+      }
+
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes ani-3 {
+      from {
+        transform: scale(0.1, 0.1);
+      }
+
+      to {
+        transform: scale(1, 1);
+      }
+    }
+
+    @keyframes ani-4 {
+      from {
+        transform: scale(2, 2);
+      }
+
+      to {
+        transform: scale(1, 1);
+      }
+    }
+
+    @keyframes ani-5 {
+      from {
+        transform: scale(0.1, 0.1) rotate(-360deg);
+      }
+
+      to {
+        transform: scale(1, 1) rotate(0);
+      }
+    }
+
+    .toolbar {
+      width: 100%;
+      position: absolute;
+      bottom: 0px;
+      padding: 5% 10%;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .side {
+      width: 200px;
+      height: 130px;
+      margin: 0 10px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .side:active {
+      cursor: pointer;
+    }
+
+    .side:first-child {
+      background-image: url(./img/item-1.png);
+    }
+
+    .side:nth-child(2) {
+      background-image: url(./img/item-2.png);
+    }
+
+    .side:nth-child(3) {
+      background-image: url(./img/item-3.png);
+    }
+
+    .side:nth-child(4) {
+      background-image: url(./img/item-4.png);
+    }
+
+    .side:nth-child(5) {
+      background-image: url(./img/item-5.png);
+    }
+
+    .side .mask {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(83, 83, 83, 0.4);
+    }
+
+    .side:hover .mask {
+      background-color: transparent;
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <img class="bg" src="./img/item-1.png">
+    <img id="main" data-animation="ani-1" src="./img/item-1.png">
+    <div class="toolbar">
+      <div class="side" data-animation="ani-1">
+        <div class="mask"></div>
+      </div>
+      <div class="side" data-animation="ani-2">
+        <div class="mask"></div>
+      </div>
+      <div class="side" data-animation="ani-3">
+        <div class="mask"></div>
+      </div>
+      <div class="side" data-animation="ani-4">
+        <div class="mask"></div>
+      </div>
+      <div class="side" data-animation="ani-5">
+        <div class="mask"></div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  window.onload = function () {
+    let bg = document.querySelector('.bg');
+    let sides = document.getElementsByClassName('side');
+    let img = document.getElementById('main');
+    for (let i = 0; i < sides.length; i++) {
+      sides[i].onclick = function (e) {
+        // 获得要使用的动画名称
+        let animation = sides[i].dataset.animation;
+        // 删除图片的动画样式类
+        img.classList.remove(img.dataset.animation);
+        // 更新图片的动画名称记忆
+        img.dataset.animation = animation;
+        // 设置新动画的样式类
+        img.classList.add(animation);
+        // 设置动画的图片地址
+        img.src = `./img/item-${i + 1}.png`;
+        // 添加动画结束监听
+        img.addEventListener('animationend', function () {
+          // 设置背景的图片地址
+          bg.src = `./img/item-${i + 1}.png`;
+        })
+
+      }
+    }
+  }
+</script>

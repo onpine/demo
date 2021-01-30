@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>倒计时</title>
+</head>
+
+<body>
+  <canvas id="canvas" style="border: 1px solid #000"></canvas>
+</body>
+<script>
+  window.onload = function () {
+    let canvas = document.getElementById('canvas');
+    canvas.width = 1024;
+    canvas.height = 768;
+    let context = canvas.getContext('2d') || false;
+    console.log(context)
+    if (context === false) {
+      alert('浏览器不支持Canvas')
+    }
+    context.beginPath()
+    context.moveTo(100, 100)
+    context.lineTo(700, 700)
+    context.lineTo(200, 500)
+    context.lineTo(100, 100)
+    context.closePath()
+    context.lineWidth = 5;
+    context.strokeStyle = "red"
+    context.fillStyle = "rgb(2,100,200)"
+    context.fill()
+    context.stroke()
+
+    context.beginPath()
+    context.moveTo(200, 100)
+    context.lineTo(700, 600)
+    context.closePath()
+    context.strokeStyle = "green"
+    context.stroke()
+
+  }
+</script>
+
+</html>

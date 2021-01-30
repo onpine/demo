@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lineCap</title>
+</head>
+
+<body>
+  <canvas id="canvas" style="border: 1px solid #ccc;"></canvas>
+</body>
+<script>
+  window.onload = function () {
+    let canvas = document.getElementById('canvas');
+    canvas.width = 1000;
+    canvas.height = 700;
+    let context = canvas.getContext('2d');
+
+    context.lineWidth = 10;
+    // context.lineJoin = 'bevel';
+    // context.lineJoin = 'round';
+    context.lineJoin = 'miter';
+    context.miterLimit = 10;
+    drawStar(context, 30, 300, 400, 400, 30);
+  }
+
+  function drawStar(cxt, r, R, x, y, rot) {
+    cxt.beginPath();
+    for (let i = 0; i < 5; i++) {
+      cxt.lineTo(
+        Math.cos((18 + i * 72 - rot) / 180 * Math.PI) * R + x,
+        - Math.sin((18 + i * 72 - rot) / 180 * Math.PI) * R + y);
+      cxt.lineTo(
+        Math.cos((54 + i * 72 - rot) / 180 * Math.PI) * r + x,
+        - Math.sin((54 + i * 72 - rot) / 180 * Math.PI) * r + y);
+    }
+    cxt.closePath();
+    cxt.stroke();
+  }
+</script>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图像变换和状态保存</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+<script>
+  window.onload = function () {
+    let canvas = document.getElementById('canvas');
+    let vw = document.body.clientWidth;
+    let vh = document.body.clientHeight;
+    canvas.width = vw;
+    canvas.height = vh;
+    let context = canvas.getContext('2d');
+
+    // save(),restore()状态保存和修复
+    context.save();
+    context.translate(100, 100);
+    context.fillStyle = "red";
+    context.fillRect(0, 0, 200, 200);
+    context.restore();
+
+    // translate的效果是叠加的
+    context.translate(100, 200);
+    context.fillStyle = "green";
+    context.fillRect(0, 0, 200, 200);
+  }
+</script>
+
+</html>

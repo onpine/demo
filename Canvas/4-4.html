@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>变换矩阵</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+<script>
+  window.onload = function () {
+    let canvas = document.getElementById('canvas');
+    let vw = document.body.clientWidth;
+    let vh = document.body.clientHeight;
+    canvas.width = vw;
+    canvas.height = vh;
+    let context = canvas.getContext('2d');
+
+    // transform的效果是叠加的
+    // save(),restore()状态保存和修复
+    context.save();
+    context.transform(1, 0, 0, 1, 100, 100);
+    context.fillStyle = "red";
+    context.fillRect(0, 0, 200, 200);
+    context.restore();
+
+    context.save();
+    context.transform(2, 0, 0, 1.5, 0, 0);
+    context.strokeStyle = "green";
+    context.lineWidth = 5;
+    context.strokeRect(0, 0, 200, 200);
+    context.restore();
+
+    context.save();
+    context.transform(1, -0.2, -0.2, 1, 100, 100);
+    context.strokeStyle = "green";
+    context.lineWidth = 5;
+    context.strokeRect(0, 0, 200, 200);
+    context.restore();
+
+    context.save();
+    context.transform(1, 0, 0, 1, 100, 100);
+    context.transform(2, 0, 0, 1.5, 0, 0);
+    context.transform(1, -0.2, -0.2, 1, 100, 100);
+    // setTransform忽略之前所有的transform，重新设置
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.strokeStyle = "blue";
+    context.lineWidth = 5;
+    context.strokeRect(0, 0, 500, 500);
+    context.restore();
+  }
+</script>
+
+</html>

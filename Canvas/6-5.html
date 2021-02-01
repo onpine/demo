@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三次贝塞尔曲线</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+<script>
+  window.onload = function () {
+    let canvas = document.getElementById('canvas');
+    let vw = document.body.clientWidth;
+    let vh = document.body.clientHeight;
+    canvas.width = vw;
+    canvas.height = vh;
+    let context = canvas.getContext('2d');
+
+    context.beginPath();
+    context.moveTo(150, 100);
+    context.bezierCurveTo(650, 250, 100, 550, 650, 700, 500);
+    context.lineWidth = 5;
+    context.strokeStyle = 'red';
+    context.stroke();
+
+    context.beginPath();
+    context.moveTo(150, 100);
+    context.lineTo(650, 250);
+    context.moveTo(100, 550);
+    context.lineTo(650, 700);
+    context.lineWidth = 2;
+    context.strokeStyle = '#ccc';
+    context.stroke();
+  }
+</script>
+
+</html>

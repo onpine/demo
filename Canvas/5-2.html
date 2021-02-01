@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>径向渐变</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+<script>
+  window.onload = function () {
+    let canvas = document.getElementById('canvas');
+    let vw = document.body.clientWidth;
+    let vh = document.body.clientHeight;
+    canvas.width = vw;
+    canvas.height = vh;
+    let context = canvas.getContext('2d');
+
+    let radialGrad = context.createRadialGradient(400, 400, 0, 400, 400, 500);
+    radialGrad.addColorStop(0.0, 'white');
+    radialGrad.addColorStop(0.25, 'yellow');
+    radialGrad.addColorStop(0.5, 'green');
+    radialGrad.addColorStop(0.75, 'blue');
+    radialGrad.addColorStop(1.0, 'black');
+    context.fillStyle = radialGrad;
+    context.fillRect(0, 0, 800, 800);
+  }
+</script>
+
+</html>

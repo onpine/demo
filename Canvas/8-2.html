@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>阴影</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+<script>
+  window.onload = function () {
+    let canvas = document.getElementById('canvas');
+    let vw = document.body.clientWidth;
+    let vh = document.body.clientHeight;
+    canvas.width = vw;
+    canvas.height = vh;
+    let context = canvas.getContext('2d');
+
+    // globalAlpha	设置或返回绘图的当前 alpha 或透明值
+    // context.globalAlpha = 0.5;
+    context.globalCompositeOperation = "source-out";
+
+    context.beginPath();
+    context.fillStyle = "#058";
+    context.fillRect(200, 200, 400, 400);
+
+    context.beginPath();
+    context.fillStyle = "red";
+    context.fillRect(300, 300, 400, 400);
+  }
+</script>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文字渲染</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+<script>
+  window.onload = function () {
+    let canvas = document.getElementById('canvas');
+    let vw = document.body.clientWidth;
+    let vh = document.body.clientHeight;
+    canvas.width = vw;
+    canvas.height = vh;
+    let context = canvas.getContext('2d');
+
+    context.font = "bold 40px Arial";
+
+    context.fillStyle = "#058";
+    context.fillText('Hello Canvas!', 40, 100);
+
+    context.lineWidth = 1;
+    context.strokeStyle = "#058";
+    context.strokeText('Hello Canvas!', 40, 200);
+
+
+    context.fillText('Hello Canvas!', 40, 300, 200);
+    // center, left, right
+    context.textAlign = "center";
+    // top middle bottom
+    context.textBaseLine = "bottom";
+    context.strokeText('Hello Canvas!', 400, 400, 600);
+
+    context.save();
+    let textWidth = context.measureText("Hello Canvas!").width;
+    context.fillText('上个字符串长度' + textWidth + "px", 40, 600);
+    context.restore();
+  }
+</script>
+
+</html>

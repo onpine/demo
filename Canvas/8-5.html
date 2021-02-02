@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>isPointInPath</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+<script>
+  let balls = [];
+  let canvas = document.getElementById('canvas');
+  let context = canvas.getContext('2d');
+
+  window.onload = function () {
+    let vw = document.body.clientWidth;
+    let vh = document.body.clientHeight;
+    canvas.width = vw;
+    canvas.height = vh;
+
+    for (let i = 0; i < 20; i++) {
+      let aBall = {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 50 + 20
+      }
+      balls.push(aBall);
+    }
+
+    draw();
+    canvas.addEventListener("mouseup", detect);
+  }
+
+  function draw() {
+    for (let i = 0; i < balls.length; i++) {
+      context.beginPath();
+      context.arc(balls[i].x, balls[i].y, balls[i].r, 0, Math.PI * 2);
+      context.fillStyle = "#058";
+      context.fill();
+    }
+  }
+
+  function detect(event) {
+    let x = event.clientX - canvas.getBoundingClientRect().left;
+    let y = event.clientY - canvas.getBoundingClientRect().top;
+
+    for (let i = 0; i < balls.length; i++) {
+      context.beginPath();
+      context.arc(balls[i].x, balls[i].y, balls[i].r, 0, Math.PI * 2);
+
+      if (context.isPointInPath(x, y)) {
+        context.fillStyle = "red";
+        context.fill();
+      }
+    }
+  }
+
+</script>
+
+</html>

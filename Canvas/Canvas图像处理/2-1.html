@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>drawImage图像缩放与水印</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" style="display:block;border: 1px solid #ccc;margin: 20px auto;"></canvas>
+  <input type="range" id="scale-range" value="1.0" min="0.5" max="3.0" step="0.01"
+    style="display:block;margin: 20px auto; width: 700px;">
+  <canvas id="watermark-canvas" style="display: none;margin: 0 auto; border: 1px solid #aaa;"></canvas>
+</body>
+<script>
+  let canvas = document.getElementById('canvas');
+  let context = canvas.getContext('2d');
+  let image = new Image();
+  let silder = document.getElementById('scale-range');
+
+  let watermarkCanvas = document.getElementById("watermark-canvas");
+  let watermarkConText = watermarkCanvas.getContext('2d');
+
+  window.onload = function () {
+    let vw = document.body.clientWidth;
+    let vh = document.body.clientHeight;
+    canvas.width = 500;
+    canvas.height = 500;
+    let scale = silder.value;
+
+    image.src = '../cat.jpg';
+    image.onload = function () {
+      drawImageScale(scale);
+      silder.onmousemove = function () {
+        scale = silder.value;
+        drawImageScale(scale);
+      }
+    }
+    // 设置水印
+    watermarkCanvas.width = 150;
+    watermarkCanvas.height = 50;
+
+    watermarkConText.font = "bold 30px Arial";
+    watermarkConText.lineWidth = "1";
+    watermarkConText.fillStyle = "rgba(255, 255, 255, 0.5)";
+    watermarkConText.textBaseline = "middle";
+    watermarkConText.textAlign = "center";
+    watermarkConText.fillText("@onpine", 75, 25);
+  }
+
+  function drawImageScale(scale) {
+    let imageWidth = 500 / scale;
+    let imageHeight = 500 / scale;
+
+    let sx = canvas.width / 2 - imageWidth / 2;
+    let sy = canvas.height / 2 - imageHeight / 2;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image, sx, sy, imageWidth, imageHeight, 0, 0, canvas.width, canvas.height);
+    context.drawImage(watermarkCanvas, canvas.width - watermarkCanvas.width, canvas.height - watermarkCanvas.height);
+
+  }
+
+</script>
+
+</html>

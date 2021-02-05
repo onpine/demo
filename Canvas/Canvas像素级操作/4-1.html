@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>putImageData</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+    }
+
+    a {
+      display: block;
+      margin: 20px auto;
+      font: bold 20px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvasa" style="border: 1px solid #ccc;"></canvas>
+  <canvas id="canvasb" style="border: 1px solid #ccc;"></canvas>
+  <a href="javascript: filter()">filter</a>
+</body>
+<script>
+  let canvasa = document.getElementById('canvasa');
+  let canvasb = document.getElementById('canvasb');
+
+  canvasa.width = 500;
+  canvasa.height = 500;
+  canvasb.width = 500;
+  canvasb.height = 500;
+  let contexta = canvasa.getContext('2d');
+  let contextb = canvasb.getContext('2d');
+
+  let image = new Image();
+  window.onload = function () {
+    image.src = '../cat.jpg';
+    image.onload = function () {
+      contexta.drawImage(image, 0, 0, canvasa.width, canvasa.height);
+    }
+  }
+
+  function filter() {
+    let imageData = contexta.getImageData(0, 0, canvasa.width, canvasa.height);
+    contextb.putImageData(imageData, 50, 50, 0, 0, canvasb.width - 100, canvasb.height - 100);
+  }
+</script>
+
+</html>

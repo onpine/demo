@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>滤镜、马赛克效果</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+    }
+
+    a {
+      display: block;
+      margin: 20px 20px;
+      font-size: 20px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvasa" style="border: 1px solid #ccc;"></canvas>
+  <canvas id="canvasb" style="border: 1px solid #ccc;"></canvas>
+  <a href="javascript: greyEffect()">grey Effect</a>
+  <a href="javascript: blackEffect()">black Effect</a>
+  <a href="javascript: reverseEffect()">reverse Effect</a>
+  <a href="javascript: blurEffect()">blur Effect</a>
+  <a href="javascript: mosaicEffect()">mosaic Effect</a>
+</body>
+<script>
+  let canvasa = document.getElementById('canvasa');
+  let canvasb = document.getElementById('canvasb');
+
+  canvasa.width = 500;
+  canvasa.height = 500;
+  canvasb.width = 500;
+  canvasb.height = 500;
+  let contexta = canvasa.getContext('2d');
+  let contextb = canvasb.getContext('2d');
+
+  let image = new Image();
+  window.onload = function () {
+    image.src = '../cat.jpg';
+    image.onload = function () {
+      contexta.drawImage(image, 0, 0, canvasa.width, canvasa.height);
+    }
+  }
+
+  function greyEffect() {
+    let imageData = contexta.getImageData(0, 0, canvasa.width, canvasa.height);
+    let pixelData = imageData.data;
+    for (let i = 0; i < canvasa.width * canvasa.height; i++) {
+      let r = pixelData[i * 4 + 0];
+      let g = pixelData[i * 4 + 1];
+      let b = pixelData[i * 4 + 2];
+
+      let grey = r * 0.3 + g * 0.59 + b * 0.11;
+
+      pixelData[i * 4 + 0] = grey;
+      pixelData[i * 4 + 1] = grey;
+      pixelData[i * 4 + 2] = grey;
+    }
+    contextb.putImageData(imageData, 0, 0, 0, 0, canvasb.width, canvasb.height);
+  }
+
+  function blackEffect() {
+    let imageData = contexta.getImageData(0, 0, canvasa.width, canvasa.height);
+    let pixelData = imageData.data;
+    for (let i = 0; i < canvasa.width * canvasa.height; i++) {
+      let r = pixelData[i * 4 + 0];
+      let g = pixelData[i * 4 + 1];
+      let b = pixelData[i * 4 + 2];
+
+      let grey = r * 0.3 + g * 0.59 + b * 0.11;
+      let v;
+      if (grey > 255 / 2) {
+        v = 255;
+      } else {
+        v = 0;
+      }
+
+      pixelData[i * 4 + 0] = v;
+      pixelData[i * 4 + 1] = v;
+      pixelData[i * 4 + 2] = v;
+    }
+    contextb.putImageData(imageData, 0, 0, 0, 0, canvasb.width, canvasb.height);
+  }
+
+  function reverseEffect() {
+    let imageData = contexta.getImageData(0, 0, canvasa.width, canvasa.height);
+    let pixelData = imageData.data;
+    for (let i = 0; i < canvasa.width * canvasa.height; i++) {
+      let r = pixelData[i * 4 + 0];
+      let g = pixelData[i * 4 + 1];
+      let b = pixelData[i * 4 + 2];
+
+      pixelData[i * 4 + 0] = 255 - r;
+      pixelData[i * 4 + 1] = 255 - g;
+      pixelData[i * 4 + 2] = 255 - b;
+    }
+    contextb.putImageData(imageData, 0, 0, 0, 0, canvasb.width, canvasb.height);
+  }
+
+  function blurEffect() {
+    let imageData = contexta.getImageData(0, 0, canvasa.width, canvasa.height);
+    let pixelData = imageData.data;
+    let tmpImageData = pixelData;
+
+    let blurR = 5;
+
+    for (let i = blurR; i < canvasa.height - blurR; i++) {
+      for (let j = blurR; j < canvasa.width - blurR; j++) {
+
+        let totalR = 0;
+        let totalG = 0;
+        let totalB = 0;
+        for (let dx = -blurR; dx <= blurR; dx++) {
+          for (let dy = -blurR; dy <= blurR; dy++) {
+            let x = i + dx;
+            let y = j + dy;
+            let p = x * canvasa.width + y;
+
+            totalR += tmpImageData[p * 4 + 0];
+            totalG += tmpImageData[p * 4 + 1];
+            totalB += tmpImageData[p * 4 + 2];
+          }
+
+        }
+        let p = i * canvasa.width + j;
+        let totalNum = Math.pow((blurR * 2 + 1), 2);
+        pixelData[p * 4 + 0] = totalR / totalNum;
+        pixelData[p * 4 + 1] = totalG / totalNum;
+        pixelData[p * 4 + 2] = totalB / totalNum;
+      }
+    }
+    contextb.putImageData(imageData, 0, 0, 0, 0, canvasb.width, canvasb.height);
+  }
+
+  function mosaicEffect() {
+    let imageData = contexta.getImageData(0, 0, canvasa.width, canvasa.height);
+    let pixelData = imageData.data;
+    let tmpImageData = pixelData;
+
+    let size = 16;
+    let totalNum = size * size;
+
+    for (let i = 0; i < canvasa.height; i += size) {
+      for (let j = 0; j < canvasa.width; j += size) {
+
+        let totalR = 0;
+        let totalG = 0;
+        let totalB = 0;
+        for (let dx = 0; dx <= size; dx++) {
+          for (let dy = 0; dy <= size; dy++) {
+            let x = i + dx;
+            let y = j + dy;
+            let p = x * canvasa.width + y;
+
+            totalR += tmpImageData[p * 4 + 0];
+            totalG += tmpImageData[p * 4 + 1];
+            totalB += tmpImageData[p * 4 + 2];
+          }
+        }
+        let p = i * canvasa.width + j;
+        let totalNum = Math.pow(size, 2);
+        let resR = totalR / totalNum;
+        let resG = totalG / totalNum;
+        let resB = totalB / totalNum;
+
+        for (let dx = 0; dx <= size; dx++) {
+          for (let dy = 0; dy <= size; dy++) {
+            let x = i + dx;
+            let y = j + dy;
+            let p = x * canvasa.width + y;
+
+            tmpImageData[p * 4 + 0] = resR;
+            tmpImageData[p * 4 + 1] = resG;
+            tmpImageData[p * 4 + 2] = resB;
+          }
+        }
+      }
+    }
+    contextb.putImageData(imageData, 0, 0, 0, 0, canvasb.width, canvasb.height);
+  }
+
+</script>
+
+</html>
